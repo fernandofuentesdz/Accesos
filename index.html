@@ -59,30 +59,24 @@
         //
         //       *** LUGAR PARA EDITAR LOS ENLACES MANUALMENTE ***
         //
-        // Modifica el 'title' (título que se muestra) y el 'url' (la dirección)
-        // para cambiar los enlaces de tu portal.
+        // Modifica el 'title', 'url' y el 'icon' de los enlaces.
         //
         // ======================================================================
         const portalLinks = [
             { 
-                title: "Documentación de Proyectos", 
-                url: "https://www.google.com/docs" 
+                title: "Inventarios por códigos", 
+                url: "#", // URL de ejemplo, cámbiala
+                icon: "Barcode" 
             },
             { 
-                title: "Calendario de Reuniones", 
-                url: "https://www.google.com/calendar" 
+                title: "Inventarios por marca", 
+                url: "#", // URL de ejemplo, cámbiala
+                icon: "Tag" 
             },
             { 
-                title: "Herramienta de Soporte", 
-                url: "https://www.google.com/drive" 
-            },
-            { 
-                title: "Repositorio de Código", 
-                url: "https://www.google.com/github" 
-            },
-            { 
-                title: "Gestor de Tareas", 
-                url: "https://www.google.com/jira" 
+                title: "Oportunidades", 
+                url: "#", // URL de ejemplo, cámbiala
+                icon: "Rocket" 
             }
         ];
 
@@ -93,6 +87,20 @@
             'bg-link-orange hover:bg-link-orange/90 shadow-link-orange/50', // Naranja
             'bg-link-red hover:bg-link-red/90 shadow-link-red/50'     // Rojo
         ];
+        
+        // Diccionario de iconos SVG (Lucide)
+        const iconSvgs = {
+            Barcode: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6"><path d="M7 6v12"/><path d="M11 6v12"/><path d="M15 6v12"/><path d="M17 6v12"/><path d="M21 6v12"/><path d="M3 6v12"/></svg>`,
+            Tag: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2 2 0 0 0 2.828 0l7.172-7.172a2 2 0 0 0 0-2.828L12.586 2.586z"/><circle cx="8.5" cy="8.5" r="1.5"/></svg>`,
+            Rocket: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6"><path d="M4.5 16.5C4.5 16.5 6 12 11 12C16 12 17.5 16.5 17.5 16.5"/><path d="M18 13.06V20.89M6 13.06V20.89"/><path d="M12 21.5V12M12 12L7.02 7.02M12 12L16.98 7.02"/></svg>`,
+            // Flecha de navegación por defecto
+            ArrowRight: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>`
+        };
+        
+        // Función auxiliar para obtener el SVG del icono
+        function getIconSvg(iconName) {
+            return iconSvgs[iconName] || iconSvgs['ArrowRight']; // Si el icono no existe, usa la flecha por defecto
+        }
 
         // ======================================================================
         //
@@ -104,7 +112,7 @@
 
         /**
          * Genera un botón de enlace atractivo para cada elemento en portalLinks,
-         * asignando un color de forma cíclica.
+         * asignando un color de forma cíclica e incluyendo el icono.
          */
         function renderLinks() {
             // Limpia el contenedor antes de renderizar
@@ -130,13 +138,14 @@
                     transform hover:scale-[1.02] cursor-pointer
                 `;
                 
-                // Agregar el título del enlace
+                // Construir el contenido interno con el icono específico y la flecha de navegación
                 linkElement.innerHTML = `
-                    <span>${link.title}</span>
-                    <!-- Icono de flecha (SVG) -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
+                    <span class="flex items-center space-x-3">
+                        ${getIconSvg(link.icon)}
+                        <span>${link.title}</span>
+                    </span>
+                    <!-- Icono de flecha de navegación -->
+                    ${getIconSvg('ArrowRight')}
                 `;
 
                 // Añadir el botón al contenedor
@@ -149,3 +158,5 @@
     </script>
 </body>
 </html>
+
+
