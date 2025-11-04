@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Acceso Rápido</title>
+    <!-- Carga de Tailwind CSS para un diseño moderno y responsivo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Fuente Inter para un aspecto limpio y profesional */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Fondo gris claro */
+        }
+    </style>
+    <!-- Configuración de color de Tailwind para que los colores dinámicos funcionen -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Colores personalizados para los botones
+                        'link-blue': '#4c51bf',
+                        'link-green': '#10b981',
+                        'link-orange': '#f59e0b',
+                        'link-red': '#ef4444',
+                        // Colores generales
+                        'secondary-dark': '#1f2937', 
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <!-- Contenedor principal del portal -->
+    <div class="w-full max-w-xl bg-white shadow-2xl rounded-xl p-6 md:p-10 border border-gray-100">
+
+        <!-- Encabezado del Portal -->
+        <header class="text-center mb-10">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-secondary-dark tracking-tight mb-2">
+                Portal de Acceso Centralizado
+            </h1>
+            <p class="text-gray-500 text-lg">
+                Selecciona la herramienta a la que deseas acceder.
+            </p>
+        </header>
+
+        <!-- Contenedor de Enlaces - Los enlaces se inyectarán aquí -->
+        <div id="links-container" class="space-y-6">
+            <!-- Los botones se generarán con JavaScript -->
+        </div>
+
+    </div>
+
+    <script>
+        // ======================================================================
+        //
+        //       *** LUGAR PARA EDITAR LOS ENLACES MANUALMENTE ***
+        //
+        // Modifica el 'title' (título que se muestra) y el 'url' (la dirección)
+        // para cambiar los enlaces de tu portal.
+        //
+        // ======================================================================
+        const portalLinks = [
+            { 
+                title: "Documentación de Proyectos", 
+                url: "https://www.google.com/docs" 
+            },
+            { 
+                title: "Calendario de Reuniones", 
+                url: "https://www.google.com/calendar" 
+            },
+            { 
+                title: "Herramienta de Soporte", 
+                url: "https://www.google.com/drive" 
+            },
+            { 
+                title: "Repositorio de Código", 
+                url: "https://www.google.com/github" 
+            },
+            { 
+                title: "Gestor de Tareas", 
+                url: "https://www.google.com/jira" 
+            }
+        ];
+
+        // Definición de las clases de color para los botones (se usan cíclicamente)
+        const colorClasses = [
+            'bg-link-blue hover:bg-link-blue/90 shadow-link-blue/50',   // Azul
+            'bg-link-green hover:bg-link-green/90 shadow-link-green/50', // Verde
+            'bg-link-orange hover:bg-link-orange/90 shadow-link-orange/50', // Naranja
+            'bg-link-red hover:bg-link-red/90 shadow-link-red/50'     // Rojo
+        ];
+
+        // ======================================================================
+        //
+        //         NO ES NECESARIO MODIFICAR NADA DE AQUÍ ABAJO
+        //
+        // ======================================================================
+
+        const container = document.getElementById('links-container');
+
+        /**
+         * Genera un botón de enlace atractivo para cada elemento en portalLinks,
+         * asignando un color de forma cíclica.
+         */
+        function renderLinks() {
+            // Limpia el contenedor antes de renderizar
+            container.innerHTML = ''; 
+
+            portalLinks.forEach((link, index) => {
+                // Selecciona la clase de color según el índice (índice % longitud_array)
+                const linkColorClass = colorClasses[index % colorClasses.length];
+                
+                // Crear el elemento de ancla (link)
+                const linkElement = document.createElement('a');
+                
+                // Configurar el URL y que se abra en una nueva pestaña
+                linkElement.href = link.url;
+                linkElement.target = "_blank";
+                linkElement.rel = "noopener noreferrer";
+
+                // Aplicar clases de estilo de Tailwind CSS para el botón/tarjeta, incluyendo el color dinámico
+                linkElement.className = `
+                    w-full flex items-center justify-between p-4 
+                    ${linkColorClass} text-white font-semibold text-lg rounded-lg 
+                    shadow-md transition-all duration-300 
+                    transform hover:scale-[1.02] cursor-pointer
+                `;
+                
+                // Agregar el título del enlace
+                linkElement.innerHTML = `
+                    <span>${link.title}</span>
+                    <!-- Icono de flecha (SVG) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                `;
+
+                // Añadir el botón al contenedor
+                container.appendChild(linkElement);
+            });
+        }
+
+        // Ejecutar la función para mostrar los enlaces al cargar
+        window.onload = renderLinks;
+    </script>
+</body>
+</html>
